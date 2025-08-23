@@ -49,6 +49,8 @@
     const container = document.getElementById('videoContainer');
     const tocList = document.querySelector('#toc ul');
 
+    const videoElements = [];
+
     videos.forEach((video, index) => {
       const id = `video-${index+1}`;
 
@@ -86,7 +88,32 @@
       videoDiv.appendChild(branding);
 
       container.appendChild(videoDiv);
+      videoElements.push({ videoDiv, tocLink: a });
     });
+
+    // Highlight current video in TOC
+    function highlightCurrentVideo() {
+      let indexToHighlight = 0;
+      const scrollPos = window.scrollY + 150; // adjust for header height
+
+      videoElements.forEach((v, i) => {
+        const offsetTop = v.videoDiv.offsetTop;
+        if (scrollPos >= offsetTop) {
+          indexToHighlight = i;
+        }
+      });
+
+      videoElements.forEach((v, i) => {
+        if (i === indexToHighlight) {
+          v.tocLink.classList.add('active');
+        } else {
+          v.tocLink.classList.remove('active');
+        }
+      });
+    }
+
+    window.addEventListener('scroll', highlightCurrentVideo);
+    highlightCurrentVideo(); // initial highlight
   </script>
 </body>
 </html>
