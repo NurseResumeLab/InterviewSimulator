@@ -9,20 +9,27 @@
   <header>
     <h1>Virtual Interview Simulator</h1>
     <p class="instructions">
-      Watch our nursing interview simulation videos. Use the controls to play, pause, and replay each video at your convenience.
+      Watch our nursing interview simulation videos. Click on a question in the sidebar to jump to that video instantly.
     </p>
   </header>
 
-  <main id="videoContainer">
-    <!-- Videos will be inserted here by JS -->
-  </main>
+  <div class="main-container">
+    <!-- Sidebar TOC -->
+    <nav class="sidebar" id="toc">
+      <ul></ul>
+    </nav>
+
+    <!-- Video content -->
+    <main id="videoContainer">
+      <!-- Videos will be generated here -->
+    </main>
+  </div>
 
   <footer>
     <p>&copy; 2025 Nurse Resume Lab. All rights reserved.</p>
   </footer>
 
   <script>
-    // Array of videos with updated titles
     const videos = [
       { title: "Introduction", src: "https://dl.dropboxusercontent.com/s/abcd1234/introduction.mp4" },
       { title: "Question 1", src: "https://dl.dropboxusercontent.com/s/abcd1234/question1.mp4" },
@@ -40,12 +47,24 @@
     ];
 
     const container = document.getElementById('videoContainer');
+    const tocList = document.querySelector('#toc ul');
 
-    videos.forEach(video => {
+    videos.forEach((video, index) => {
+      const id = `video-${index+1}`;
+
+      // Sidebar TOC item
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      a.textContent = video.title;
+      li.appendChild(a);
+      tocList.appendChild(li);
+
+      // Video container
       const videoDiv = document.createElement('div');
       videoDiv.className = 'video-container';
+      videoDiv.id = id;
 
-      // Video element
       const videoEl = document.createElement('video');
       videoEl.setAttribute('controls', '');
       const source = document.createElement('source');
