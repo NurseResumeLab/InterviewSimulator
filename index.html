@@ -1,26 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;900&display=swap" rel="stylesheet">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nurse Resume Lab - Virtual Interview Simulator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f8f9fa;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(120deg, #f8f9fa, #e6f0fa);
       color: #333;
       margin: 0;
       padding: 0;
     }
+
     header {
       background: #0077b6;
       color: white;
       padding: 30px 10px;
       text-align: center;
     }
+
     header h1 {
       margin: 0;
+      font-size: 2em;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #ffffff;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+      border-bottom: 2px solid rgba(255,255,255,0.5);
+      padding-bottom: 10px;
     }
+
+    header p {
+      margin: 5px 0 0 0;
+      font-size: 1em;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      color: #e0e0e0;
+    }
+
     .container {
       max-width: 1000px;
       margin: 20px auto;
@@ -29,74 +48,181 @@
       border-radius: 10px;
       box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     }
+
     h2 {
       color: #0077b6;
       margin-top: 0;
       text-align: center;
     }
+
     .cards {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 15px;
       margin-top: 20px;
     }
+
     .card {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
       background: #e0f0ff;
       padding: 20px;
       border-radius: 10px;
       text-align: center;
       cursor: pointer;
       font-weight: bold;
-      transition: transform 0.2s, background 0.2s;
+      transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 16px;
     }
+
     .card:hover {
       transform: translateY(-5px);
       background: #c0e0ff;
     }
+
+    .card::after {
+      content: '▶';
+      font-size: 18px;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color: rgba(0,0,0,0.3);
+    }
+
+    .card.active {
+      background: #0077b6;
+      color: white;
+      transform: translateY(-5px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .current-video {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #0077b6;
+      text-align: center;
+    }
+
     iframe {
       width: 100%;
       height: 480px;
       margin-top: 30px;
       border: none;
       border-radius: 8px;
+      transition: opacity 0.3s ease-in-out;
+      opacity: 1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #0077b6;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Hide main content by default */
+    #mainContent {
+      display: none;
+    }
+
+    /* Access Denied styling */
+    #accessDenied {
+      display: none;
+      text-align: center;
+      margin-top: 50px;
+      font-size: 24px;
+      color: red;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Virtual Interview Simulator</h1>
-    <p>by Nurse Resume Lab</p>
-  </header>
+  <!-- Main content (hidden until correct password) -->
+  <div id="mainContent">
+    <header>
+      <h1>Virtual Interview Simulator</h1>
+      <p>by Nurse Resume Lab</p>
+    </header>
 
-  <div class="container">
-    <h2>Select a Video</h2>
-    <div class="cards" id="videoList">
-      <div class="card" data-src="https://drive.google.com/file/d/1DqdDGJnG-NLdVPuUhBNllgOemUFoo9S9/preview">Introduction</div>
-      <div class="card" data-src="https://drive.google.com/file/d/119Nu7rfTYyIl-e65HHeD04jf7TXEuCuQ/preview">Question 1</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1iOvsW0ObA_4Uk-ibvMrIJV3mjP8y-Kj8/preview">Question 2</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1QUkEHoCZkY0NhU9L41GOVadtFQdiBqi-/preview">Question 3</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1tJzoHcxvis9pe23HgjjTGsoW6DXUdwXi/preview">Question 4</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1zgG08TThLjueq6AfBEYhsyoNTVHK8Vjt/preview">Question 5</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1G-PPFPZa0foD5Dr0jwQ4NRVSVfR7hQJJ/preview">Question 6</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1LdyYRbR_opmadDymsvnIw6mQtPUs4GP5/preview">Question 7</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1K7KeIOk0BbJY4vbrPNZlvWUau45BRMBh/preview">Question 8</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1bJCVly2W0mXDuTbufJ7yDvoc3T3rAB7K/preview">Question 9</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1MetTjUfsJ_BT87vKtNd6hBxHpPOieVrq/preview">Question 10</div>
-      <div class="card" data-src="https://drive.google.com/file/d/14YS9dRRhFHLw5YYAf7Bu8ofuGrla4WEK/preview">Question 11</div>
-      <div class="card" data-src="https://drive.google.com/file/d/1SPk-yUbYzGOj6w66oeSqNpxxqWmxg3jm/preview">Body Language Quiz</div>
+    <div class="container">
+      <h2>Select a Video</h2>
+      <div class="cards" id="videoList">
+        <div class="card" data-src="https://drive.google.com/file/d/1DqdDGJnG-NLdVPuUhBNllgOemUFoo9S9/preview">Introduction</div>
+        <div class="card" data-src="https://drive.google.com/file/d/119Nu7rfTYyIl-e65HHeD04jf7TXEuCuQ/preview">Question 1</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1iOvsW0ObA_4Uk-ibvMrIJV3mjP8y-Kj8/preview">Question 2</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1QUkEHoCZkY0NhU9L41GOVadtFQdiBqi-/preview">Question 3</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1tJzoHcxvis9pe23HgjjTGsoW6DXUdwXi/preview">Question 4</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1zgG08TThLjueq6AfBEYhsyoNTVHK8Vjt/preview">Question 5</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1G-PPFPZa0foD5Dr0jwQ4NRVSVfR7hQJJ/preview">Question 6</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1LdyYRbR_opmadDymsvnIw6mQtPUs4GP5/preview">Question 7</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1K7KeIOk0BbJY4vbrPNZlvWUau45BRMBh/preview">Question 8</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1bJCVly2W0mXDuTbufJ7yDvoc3T3rAB7K/preview">Question 9</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1MetTjUfsJ_BT87vKtNd6hBxHpPOieVrq/preview">Question 10</div>
+        <div class="card" data-src="https://drive.google.com/file/d/14YS9dRRhFHLw5YYAf7Bu8ofuGrla4WEK/preview">Question 11</div>
+        <div class="card" data-src="https://drive.google.com/file/d/1SPk-yUbYzGOj6w66oeSqNpxxqWmxg3jm/preview">Body Language Quiz</div>
+      </div>
+
+      <div class="current-video" id="currentVideo">Select a video to start playing</div>
+
+      <iframe id="videoPlayer" src="" allowfullscreen></iframe>
     </div>
 
-    <iframe id="videoPlayer" src="" allowfullscreen></iframe>
+    <footer>
+      &copy; 2025 Nurse Resume Lab | <a href="https://nurseresumelab.com" target="_blank">nurseresumelab.com</a>
+    </footer>
   </div>
 
+  <!-- Access Denied message -->
+  <div id="accessDenied">Access Denied</div>
+
   <script>
+    const PASSWORD = "INTERVIEWSIM2025";
+
+    window.onload = function() {
+      let input = prompt("Enter the password to access the Virtual Interview Simulator:");
+      if(input === PASSWORD) {
+        document.getElementById("mainContent").style.display = "block";
+      } else {
+        document.getElementById("accessDenied").style.display = "block";
+      }
+    };
+
+    // Video card functionality
     const cards = document.querySelectorAll('.card');
     const player = document.getElementById('videoPlayer');
+    const currentVideoLabel = document.getElementById('currentVideo');
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
-        player.src = card.getAttribute('data-src');
+        // Fade-out effect
+        player.style.opacity = 0;
+        setTimeout(() => {
+          player.src = card.getAttribute('data-src');
+          player.style.opacity = 1;
+        }, 200);
+
+        // Highlight active card
+        cards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+
+        // Update currently playing label
+        currentVideoLabel.textContent = "Currently Playing: " + card.textContent;
       });
     });
   </script>
